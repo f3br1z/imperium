@@ -21,10 +21,6 @@ while ($data = $sql->fetch_assoc()) {
     $total += $data['total'];
 };
 
-//    $sql2 = $koneksi->query("select * from tb_barang");
-//    while ($tampil2 = $sql2->fetch_assoc()){
-//     $jumlahbarang = $sql2->num_rows;
-//    };
 
 //  Chart Label and query transaksi anggota
 
@@ -38,10 +34,10 @@ for ($bulan = 1; $bulan < 13; $bulan++) {
 
 // Chart Label and query transaksi barang
 
-$label1 = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
+$label1 = ["Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu"];
 
-for ($bulan1 = 1; $bulan1 < 13; $bulan1++) {
-    $query1 = mysqli_query($koneksi, "select sum(total_belanja) as total_belanja from tb_trbarang where MONTH(tanggal_belanja)='$bulan1'");
+for ($bulan1 = 1; $bulan1 < 8; $bulan1++) {
+    $query1 = mysqli_query($koneksi, "select sum(total_belanja) as total_belanja from tb_trbarang where DAY(tanggal_belanja)='$bulan1'");
     $chart1 = $query1->fetch_array();
     $jumlah_penjualan1[] = $chart1['total_belanja'];
 }
@@ -82,18 +78,7 @@ for ($bulan1 = 1; $bulan1 < 13; $bulan1++) {
             </div>
         </div>
     </div>
-    <!-- <div class="col-md-3 col-sm-6 col-xs-6">
-        <div class="panel panel-back noti-box">
-            <span class="icon-box bg-color-brown set-icon">
-                <i class="fa fa-money"></i>
-            </span>
-            <div class="text-box">
-                <p class="main-text">Pedapatan Gym Anggota</p>
-                <p class="text-muted"><?php echo $total ?></p>
-            </div>
-        </div>
 
-    </div> -->
 
     <script src="assets/js/Chart.js"></script>
     <!-- chart transaksi anggota -->
@@ -163,7 +148,7 @@ for ($bulan1 = 1; $bulan1 < 13; $bulan1++) {
     <script>
         var ctx = document.getElementById("myChart1").getContext('2d');
         var myChart = new Chart(ctx, {
-            type: 'bar',
+            type: 'line',
             data: {
                 labels: <?php echo json_encode($label1); ?>,
                 datasets: [{

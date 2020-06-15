@@ -1,6 +1,7 @@
 <?php
 error_reporting(0);
 $koneksi = new mysqli("localhost", "root", "", "db_emperium");
+$id_trbarang = $_GET['kode'];
 $content = '
 
 <style type="text/css">
@@ -13,73 +14,55 @@ $content = '
 
 ';
 
-
+$sql_tanggal = $koneksi->query("select * from tb_trbarang where id_transbarang = '$id_trbarang' ");
+$tampil1 = $sql_tanggal->fetch_assoc();
+$tanggal_belanja = $tampil1['tanggal_belanja'];
+$total_belanja	= $tampil1['total_belanja'];
+$kasir = $tampil1['username'];
 $content .= '
 <page>
-<h1>Laporan Transaksi Barang</h1>
+<h1>Laporan Transaksi Barang </h1>
+<h5>
+Nomor Transaksi :
+' . $id_trbarang . '&nbsp;&nbsp;
+ Tanggal : ' . $tanggal_belanja . ' &nbsp;&nbsp; Oleh ' . $kasir . '
+ </h5>
 <br>
 <table border="1px" class="tabel"  >
 <tr>
 <th>No </th>
 <th>Nama Barang</th>
 <th>Harga Barang</th>
-<th>Tanggal Belanja</th>
 <th>Jumlah Beli</th>
-<th>Total Belanja</th>
-</tr>';
-
-if (isset($_POST['cetak'])) {
+</tr>
+';
 
 
 
-    $tgl1 = $_POST['tanggal1'];
-    $tgl2 = $_POST['tanggal2'];
+$no = 1;
 
-    $total = 0;
-    $no = 1;
+$sql = $koneksi->query("select * from tb_trdetail where id_transbarang = '$id_trbarang' ");
+while ($tampil = $sql->fetch_assoc()) {
 
-    $sql = $koneksi->query("select * from tb_trbarang where tanggal_belanja between '$tgl1' and '$tgl2' ");
-    while ($tampil = $sql->fetch_assoc()) {
-        $total += $tampil['total_belanja'];
-
-        $content .= '
-		<tr>
-			<td align="center">' . $no++ . '</td>
-			<td align="center">' . $tampil['nama_barang'] . '</td>
-			<td align="center">' . $tampil['harga_barang'] . '</td>
-			<td align="center">' . $tampil['tanggal_belanja'] . '</td>
-			<td align="center">' . $tampil['jumlah_beli'] . '</td>
-			<td align="center">' . $tampil['total_belanja'] . '</td>
-		</tr>
-	';
-    }
-} else {
-
-    $no = 1;
-    $total = 0;
-    $sql = $koneksi->query("select * from tb_trbarang");
-    while ($tampil = $sql->fetch_assoc()) {
-        $total += $tampil['total_belanja'];
-        $content .= '
-		<tr>
-        <td align="center">' . $no++ . '</td>
-        <td align="center">' . $tampil['nama_barang'] . '</td>
-        <td align="center">' . $tampil['harga_barang'] . '</td>
-        <td align="center">' . $tampil['tanggal_belanja'] . '</td>
-        <td align="center">' . $tampil['jumlah_beli'] . '</td>
-        <td align="center">' . $tampil['total_belanja'] . '</td>
-		</tr>
-	';
-    }
+	$content .= '
+	    	<tr>
+	        <td align="center">' . $no++ . '</td>
+	        <td align="center">' . $tampil['nama_barang'] . '</td>
+	        <td align="center">' . $tampil['harga_barang'] . '</td>
+	        <td align="center">' . $tampil['jumlah_beli'] . '</td>
+	    	</tr>
+	    ';
 }
 
 $content .= '
 
 <tr>
-		                    <td colspan="5">TOTAL</td>
-		                    <td align="center">' . $total . '</td>
+		                    <td colspan="3">TOTAL</td>
+		                    <td align="center">' . $total_belanja . '</td>
 	                                     </tr> 
 </table>
+<br>
+<h4><==>Emperium Gym<==> </h4>
 </page>';
 
 require_once('../assets/html2pdf/html2pdf.class.php');

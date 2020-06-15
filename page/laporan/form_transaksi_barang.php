@@ -6,7 +6,7 @@
         <div class="row">
             <div class="col-md-12">
 
-                <form method="POST" action="laporan/laporan_trbarang.php">
+                <form method="POST" action="?page=laporan&aksi=barang">
 
                     <div class="form-group">
                         <label>Dari Tanggal </label>

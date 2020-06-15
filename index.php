@@ -212,8 +212,7 @@ font-size: 16px;"><a href="?page=bayarlansung" class="btn btn-info square-btn-ad
                                 if ($aksi == "") {
                                     include "page/transaksi/transaksi_barang.php";
                                 } elseif ($aksi == "bayar") {
-
-                                    include "page/transaksi/bayar_anggota.php";
+                                    include "page/transaksi/bayar_barang.php";
                                 } elseif ($aksi == "ubah") {
                                     include "page/transaksi/ubah.php";
                                 } elseif ($aksi == "hapus") {
@@ -249,11 +248,13 @@ font-size: 16px;"><a href="?page=bayarlansung" class="btn btn-info square-btn-ad
                                 } elseif ($aksi == "cetak_anggota") {
                                     include "page/laporan/form_transaksi_anggota.php";
                                 } elseif ($aksi == "cetak_barang") {
-                                    include "page/laporan/form_transaksi_barang.php";
+                                    include "page/laporan/laporan_trbarang.php";
                                 } elseif ($aksi == "kembali") {
                                     include "page/transaksi/kembali.php";
                                 } elseif ($aksi == "perpanjang") {
                                     include "page/transaksi/perpanjang.php";
+                                } elseif ($aksi == "barang") {
+                                    include "page/laporan/laporan_trbarang.php";
                                 }
                             } elseif ($page == "paket") {
                                 if ($aksi == "") {
